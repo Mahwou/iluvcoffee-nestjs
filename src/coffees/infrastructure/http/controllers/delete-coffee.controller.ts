@@ -16,7 +16,7 @@ export class DeleteCoffeeCOntroller {
         };
 
         try {
-            const response = await this.deleteCoffeeService.remove(id);
+            const response = await this.deleteCoffeeService.handle(id);
             httpJson.isDeleted = response.isDeleted;
             httpJson.message = response.message;
         } catch (error) {
