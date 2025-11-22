@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateCoffeeDto } from "src/coffees/infrastructure/http/Dto/create-coffee.dto";
 import { Coffee } from "src/coffees/infrastructure/models/coffee.entity";
 import { Flavor } from "src/coffees/infrastructure/models/flavor.entity";
 import { Repository } from "typeorm";
+import { CreateCoffeeCommand } from "./create-coffee.command";
+import { CreateCoffeeResponse } from "./create-coffee.response";
+import { CoffeeMessagesEnum } from "src/coffees/domain/enums/coffee-messages.enum";
 
 @Injectable()
 export class CreateCoffeeService {
@@ -15,16 +17,22 @@ export class CreateCoffeeService {
         private readonly flavorRepository: Repository<Flavor>,
     ) {}
 
-    async create(coffee: CreateCoffeeDto): Promise<void> 
+    public async handle(command: CreateCoffeeCommand): Promise<CreateCoffeeResponse> 
     {
+        let res = new CreateCoffeeResponse();
         const flavors = await Promise.all(
-            coffee.flavors.map(name => this.preloadFlavorsByName(name)),
+            command.flavors.map(name => this.preloadFlavorsByName(name)),
         );
 
         this.coffeeRepository.save({
-            ...coffee,
+            ...command,
             flavors,
         });
+
+        res.message = CoffeeMessagesEnum.CoffeeCreatedSuccessfully;
+        res.isCreated = true;
+
+        return res;
     }
 
     private async preloadFlavorsByName(name: string): Promise<Flavor> {
