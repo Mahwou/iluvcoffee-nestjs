@@ -1,18 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Coffee } from "src/coffees/infrastructure/models/coffee.entity";
-import { Flavor } from "src/coffees/infrastructure/models/flavor.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class CoffeeService {
+export class GetAllCoffeeService {
 
     constructor(
         @InjectRepository(Coffee)
         private readonly coffeeRepository: Repository<Coffee>,
-        @InjectRepository(Flavor)
-        private readonly flavorRepository: Repository<Flavor>,
     ) {}
 
-    
+    /**
+     * 
+     * @returns Promise<Coffee[]>
+     */
+    public findAll(): Promise<Coffee[]> {
+        return this.coffeeRepository.find(
+            {
+                relations: {flavors: true},
+            }
+        );
+    }
 }

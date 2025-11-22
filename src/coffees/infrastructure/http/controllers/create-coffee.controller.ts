@@ -1,11 +1,11 @@
 import { Body, Controller, Post, Response } from "@nestjs/common";
 import { CreateCoffeeDto } from "../Dto/create-coffee.dto";
-import { CoffeeService } from "src/coffees/application/command/coffee.service";
+import { CreateCoffeeService } from "src/coffees/application/command/create/create-coffee.service";
 
 @Controller('coffees')
 export class CreateCoffeeCOntroller {
     constructor(
-        private readonly coffeeService: CoffeeService,
+        private readonly coffeeService: CreateCoffeeService,
     ) {}    
 
     

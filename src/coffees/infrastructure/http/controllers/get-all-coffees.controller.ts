@@ -1,14 +1,14 @@
 import { Controller, Get } from "@nestjs/common";
-import { CoffeeService } from "src/coffees/application/command/coffee.service";
+import { GetAllCoffeeService } from "src/coffees/application/query/all/get-all-coffee.service";
 
 @Controller('coffees')
 export class GetAllCoffeesController {
     constructor(
-        private readonly coffeeService: CoffeeService,
+        private readonly getAllCoffeeService: GetAllCoffeeService,
     ) {}
     
     @Get('')
     findAll() {
-        return this.coffeeService.findAll();
+        return this.getAllCoffeeService.findAll();
     }
 }

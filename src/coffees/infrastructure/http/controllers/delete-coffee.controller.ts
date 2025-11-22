@@ -1,10 +1,10 @@
 import { Controller, Delete, Param, Response } from "@nestjs/common";
-import { CoffeeService } from "src/coffees/application/command/coffee.service";
+import { DeleteCoffeeService } from "src/coffees/application/command/delete/delete-coffee.service";
 
 @Controller('coffees')
 export class DeleteCoffeeCOntroller {
     constructor(
-        private readonly coffeeService: CoffeeService,
+        private readonly deleteCoffeeService: DeleteCoffeeService,
     ) {}    
 
     @Delete("/:id")
@@ -16,7 +16,7 @@ export class DeleteCoffeeCOntroller {
         };
 
         try {
-            this.coffeeService.remove(id);
+            this.deleteCoffeeService.remove(id);
             httpJson.isDeleted = true;
             httpJson.message = "Coffee deleted successfully.";
         } catch (error) {

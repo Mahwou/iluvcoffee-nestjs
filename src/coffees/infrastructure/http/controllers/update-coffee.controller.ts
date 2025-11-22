@@ -1,15 +1,16 @@
 import { Body, Controller, Param, Patch, Response } from "@nestjs/common";
-import { CoffeeService } from "src/coffees/application/command/coffee.service";
 import { UpdateCoffeeDto } from "../Dto/update-coffee.dto";
+import { UpdateCoffeeService } from "src/coffees/application/command/update/update-coffee.service";
+import { UpdateCoffeeCommand } from "src/coffees/application/command/update/update-coffee.command";
 
 @Controller('coffees')
 export class UpdateCoffeeCOntroller {
     constructor(
-        private readonly coffeeService: CoffeeService,
+        private readonly updateCoffeeService: UpdateCoffeeService,
     ) {}    
 
     @Patch("/:id")
-    update(@Param("id") id: string, @Body() body: UpdateCoffeeDto, @Response() res): any {
+    async update(@Param("id") id: string, @Body() body: UpdateCoffeeDto, @Response() res): Promise<any> {
 
         let httpJson = {
             isUpdated: false,
@@ -17,9 +18,18 @@ export class UpdateCoffeeCOntroller {
         };
 
         try {
-            this.coffeeService.update(id, body);
-            httpJson.isUpdated = true;
-            httpJson.message = "Coffee updated successfully.";
+            const command = new UpdateCoffeeCommand(
+                +id,
+                body.name,
+                body.brand,
+                body.flavors,
+            );
+
+            const res = await this.updateCoffeeService.handle(command);
+
+            httpJson.isUpdated = res.isUpdated;
+            httpJson.message = res.message;
+            
         } catch (error) {
             httpJson.message = error.message;
         }
