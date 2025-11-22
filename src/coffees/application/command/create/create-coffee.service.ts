@@ -29,7 +29,7 @@ export class CreateCoffeeService {
             flavors,
         });
 
-        res.message = CoffeeMessagesEnum.CoffeeCreatedSuccessfully;
+        res.message = CoffeeMessagesEnum.COFFEE_CREATED;
         res.isCreated = true;
 
         return res;

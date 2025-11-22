@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Coffee } from "src/coffees/infrastructure/models/coffee.entity";
 import { Repository } from "typeorm";
+import { DeleteCoffeeResponse } from "./delete-coffee.response";
+import { CoffeeMessagesEnum } from "src/coffees/domain/enums/coffee-messages.enum";
 
 @Injectable()
 export class DeleteCoffeeService {
@@ -11,8 +13,13 @@ export class DeleteCoffeeService {
         private readonly coffeeRepository: Repository<Coffee>,
     ) {}
 
-    remove(id: string): void 
+    async remove(id: string): Promise<DeleteCoffeeResponse> 
     {
-        this.coffeeRepository.remove({ id: +id } as Coffee);
+        let res = new DeleteCoffeeResponse();
+        await this.coffeeRepository.remove({ id: +id } as Coffee);
+
+        res.message = CoffeeMessagesEnum.COFFEE_DELETED;
+        res.isDeleted = true;
+        return res;
     }
 }

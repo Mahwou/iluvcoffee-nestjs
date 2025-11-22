@@ -1,6 +1,7 @@
 
 export enum CoffeeMessagesEnum {
-    CoffeeUpdatedSuccessfully = "Coffee updated successfully.",
-    CoffeeNotFound = "Coffee not found !",
-    CoffeeCreatedSuccessfully = "Coffee created successfully.",
+    COFFEE_UPDATED = "Coffee updated successfully.",
+    NOT_FOUND = "Coffee not found !",
+    COFFEE_CREATED = "Coffee created successfully.",
+    COFFEE_DELETED = "Coffee deleted successfully.",
 }

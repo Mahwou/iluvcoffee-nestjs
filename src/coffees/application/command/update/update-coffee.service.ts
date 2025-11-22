@@ -40,7 +40,7 @@ export class UpdateCoffeeService {
         await this.coffeeRepository.save({...command, flavors });
 
         res.isUpdated = true;
-        res.message = CoffeeMessagesEnum.CoffeeUpdatedSuccessfully;
+        res.message = CoffeeMessagesEnum.COFFEE_UPDATED;
 
         return res;
     }

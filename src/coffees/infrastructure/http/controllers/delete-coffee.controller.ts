@@ -8,7 +8,7 @@ export class DeleteCoffeeCOntroller {
     ) {}    
 
     @Delete("/:id")
-    remove(@Param("id") id: string, @Response() res): any {
+    async remove(@Param("id") id: string, @Response() res): Promise<any> {
 
         let httpJson = {
             isDeleted: false,
@@ -16,9 +16,9 @@ export class DeleteCoffeeCOntroller {
         };
 
         try {
-            this.deleteCoffeeService.remove(id);
-            httpJson.isDeleted = true;
-            httpJson.message = "Coffee deleted successfully.";
+            const response = await this.deleteCoffeeService.remove(id);
+            httpJson.isDeleted = response.isDeleted;
+            httpJson.message = response.message;
         } catch (error) {
             httpJson.message = error.message;
         }
