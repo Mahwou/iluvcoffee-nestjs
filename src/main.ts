@@ -8,6 +8,9 @@ async function bootstrap() {
     whitelist: true, // Remove properties that do not have any decorators
     transform: true, // Automatically transform payloads to be objects typed according to their defined types
     forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
+    transformOptions: {
+      enableImplicitConversion: true, // Enable implicit type conversion based on the DTO types
+    }
   }));
   await app.listen(3000);
 }

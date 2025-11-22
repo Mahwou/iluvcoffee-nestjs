@@ -1,5 +1,6 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Query } from "@nestjs/common";
 import { GetAllCoffeeService } from "src/coffees/application/query/all/get-all-coffee.service";
+import { GetAllCoffeeDto } from "../Dto/get-all-coffees.dto";
 
 @Controller('coffees')
 export class GetAllCoffeesController {
@@ -8,7 +9,11 @@ export class GetAllCoffeesController {
     ) {}
     
     @Get('')
-    findAll() {
-        return this.getAllCoffeeService.findAll();
+    findAll(@Query() query: GetAllCoffeeDto) {
+
+        return this.getAllCoffeeService.findAll({
+            limit: query.limit ?? 2,
+            page: query.page ?? 1,
+        });
     }
 }
