@@ -1,6 +1,6 @@
 import { IsOptional, IsPositive } from "class-validator";
 
-export class GetAllCoffeeDto {
+export class GetAllCoffeeRequest {
 
     @IsOptional()
     @IsPositive()

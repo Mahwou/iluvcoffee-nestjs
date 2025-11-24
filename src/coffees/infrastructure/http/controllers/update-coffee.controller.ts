@@ -1,5 +1,5 @@
 import { Body, Controller, Param, Patch, Response } from "@nestjs/common";
-import { UpdateCoffeeDto } from "../Dto/update-coffee.dto";
+import { UpdateCoffeeRequest } from "../requests/update-coffee.request";
 import { UpdateCoffeeService } from "src/coffees/application/command/update/update-coffee.service";
 import { UpdateCoffeeCommand } from "src/coffees/application/command/update/update-coffee.command";
 
@@ -10,7 +10,7 @@ export class UpdateCoffeeCOntroller {
     ) {}    
 
     @Patch("/:id")
-    async update(@Param("id") id: string, @Body() body: UpdateCoffeeDto, @Response() res): Promise<any> {
+    async update(@Param("id") id: string, @Body() request: UpdateCoffeeRequest, @Response() res): Promise<any> {
 
         let httpJson = {
             isUpdated: false,
@@ -20,9 +20,9 @@ export class UpdateCoffeeCOntroller {
         try {
             const command = new UpdateCoffeeCommand(
                 +id,
-                body.name,
-                body.brand,
-                body.flavors,
+                request.name,
+                request.brand,
+                request.flavors,
             );
 
             const res = await this.updateCoffeeService.handle(command);

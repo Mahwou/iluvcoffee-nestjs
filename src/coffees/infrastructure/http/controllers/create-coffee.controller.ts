@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Response } from "@nestjs/common";
-import { CreateCoffeeDto } from "../Dto/create-coffee.dto";
+import { CreateCoffeeRequest } from "../requests/create-coffee.request";
 import { CreateCoffeeService } from "src/coffees/application/command/create/create-coffee.service";
 import { CreateCoffeeCommand } from "src/coffees/application/command/create/create-coffee.command";
 
@@ -11,7 +11,7 @@ export class CreateCoffeeCOntroller {
 
     
     @Post()
-    async create(@Body() body: CreateCoffeeDto, @Response() res): Promise<any> {
+    async create(@Body() request: CreateCoffeeRequest, @Response() res): Promise<any> {
 
         let httpJson = {
             isSaved: false,
@@ -20,9 +20,9 @@ export class CreateCoffeeCOntroller {
 
         try {
             let command = new CreateCoffeeCommand(
-                body.name,
-                body.brand,
-                body.flavors,
+                request.name,
+                request.brand,
+                request.flavors,
             );
             const response = await this.createCoffeeService.handle(command);
             httpJson.isSaved = response.isCreated;
