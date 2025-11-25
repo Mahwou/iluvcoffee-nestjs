@@ -5,7 +5,9 @@ import { CoffeeModule } from './coffees/infrastructure/coffee.modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [CoffeeModule, TypeOrmModule.forRoot({
+  imports: [
+    CoffeeModule, 
+    TypeOrmModule.forRoot({
     type: 'mysql',
     host: 'localhost',
     port: 3306,
@@ -13,7 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     password: '',
     database: 'iluvcoffee',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: true,
+    synchronize: false,
     autoLoadEntities: true,
   })
   ],
